@@ -16,7 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        window = UIWindow(windowScene: windowScene)
+        window?.rootViewController = createTabBarController()
+        window?.makeKeyAndVisible()
+    
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,6 +52,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
+    //non standart
+    func createFeedViewController() -> UINavigationController {
+        
+        let feedViewController = FeedViewController()
+        feedViewController.title = "Feed"
+        feedViewController.tabBarItem = UITabBarItem(title: "Feed", image: UIImage(systemName: "newspaper"), selectedImage: UIImage(systemName: "newspaper.fill"))
+        
+        
+        return UINavigationController(rootViewController: feedViewController)
+    }
+    
+    func createProfileViewController() -> UINavigationController {
+        
+        let profileViewController = ProfileViewController()
+        profileViewController.title = "Profile"
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+        
+        
+        return UINavigationController(rootViewController: profileViewController)
+    }
+    
+    func createTabBarController() -> UITabBarController {
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [createFeedViewController(), createProfileViewController()]
+      
+        //UITabBar.appearance().backgroundColor = .white
+        
+        return tabBarController
+    }
 }
 
